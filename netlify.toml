@@ -1,0 +1,10 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Gives the dashboard a clean endpoint (/api/stats) instead of the default
+# /.netlify/functions/stats path.
+[[redirects]]
+  from = "/api/stats"
+  to = "/.netlify/functions/stats"
+  status = 200

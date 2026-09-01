@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domestic T20 Leagues — Batting &amp; Bowling Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="scoreboard">
+    <div class="sb-top">
+      <div>
+        <div class="sb-eyebrow"><span class="sb-dot"></span>LIVE SEASON DATA</div>
+        <h1 class="sb-title">Domestic T20 Performance Tracker</h1>
+        <p class="sb-sub">Batting and bowling records across every state T20 league — browse by tournament or view the season combined.</p>
+      </div>
+      <div class="sb-leaders">
+        <div class="led">
+          <div class="led-label">Total Players</div>
+          <div class="led-value" id="leader-runs">–</div>
+          <div class="led-meta" id="leader-runs-meta">–</div>
+        </div>
+        <div class="led">
+          <div class="led-label">Tournaments Tracked</div>
+          <div class="led-value red" id="leader-wkts">–</div>
+          <div class="led-meta" id="leader-wkts-meta">–</div>
+        </div>
+      </div>
+    </div>
+    <div class="sb-refresh-row">
+      <span id="last-updated" class="mono">Loading\u2026</span>
+      <button id="refresh-btn" class="refresh-btn" title="Refresh data now">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg>
+        Refresh
+      </button>
+    </div>
+  </header>
+
+  <div class="tabs-scroll">
+    <div class="tabs" id="tabs"></div>
+  </div>
+
+  <div class="panel" style="position:relative;">
+
+    <div id="loading-state" class="state-box">
+      <div class="spinner"></div>
+      <div>Loading live stats\u2026</div>
+    </div>
+
+    <div id="error-state" class="state-box" style="display:none;">
+      <div class="state-icon">\u26a0</div>
+      <div id="error-msg" class="error-msg">Couldn't load data.</div>
+      <button id="retry-btn" class="retry-btn">Try again</button>
+    </div>
+
+    <div class="panel-head">
+      <div>
+        <div class="comp-title" id="comp-title">All Tournaments</div>
+        <div class="comp-count" id="comp-count"></div>
+      </div>
+      <div class="segmented">
+        <button id="seg-bat" class="active bat">Batting</button>
+        <button id="seg-bowl" class="bowl">Bowling</button>
+      </div>
+    </div>
+
+    <div class="controls-row">
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a9b8ad" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search-input" placeholder="Search player or team…">
+      </div>
+      <div class="hint">Click a column header to sort · default sort: Runs / Wickets</div>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-head">
+          <div>
+            <div class="chart-title">Leaderboard</div>
+            <div class="chart-sub" id="bar-sub"></div>
+          </div>
+          <div class="chart-controls">
+            <select id="bar-metric"></select>
+            <select id="bar-n">
+              <option value="10">Top 10</option>
+              <option value="15" selected>Top 15</option>
+              <option value="25">Top 25</option>
+            </select>
+          </div>
+        </div>
+        <div class="chart-box" id="bar-canvas"></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head">
+          <div>
+            <div class="chart-title">Average vs Strike Rate</div>
+            <div class="chart-sub" id="scatter-sub"></div>
+          </div>
+          <div class="segmented">
+            <button id="scatter-bat" class="active bat">Batting</button>
+            <button id="scatter-bowl" class="bowl">Bowling</button>
+          </div>
+        </div>
+        <div class="chart-box" id="scatter-canvas"></div>
+        <div class="legend-note">Bubble size reflects run/wicket volume — hover a bubble for player detail.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Live data fetched from your API via a serverless proxy · Average and Strike Rate rounded to whole numbers for batting; bowling average to whole number, economy to 2 decimals, strike rate to 1 decimal · "All Tournaments" combines raw totals across leagues, not an average of averages.</footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
