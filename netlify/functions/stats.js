@@ -26,7 +26,7 @@ exports.handler = async function (event, context) {
   try {
     const upstream = await fetch(API_URL, {
       headers: {
-        Authorization: `Bearer ${API_TOKEN}`,
+        Authorization: API_TOKEN,
         Accept: 'application/json'
       }
     });
