@@ -17,7 +17,7 @@
 }
 
 *{box-sizing:border-box;}
-html,body{margin:0;padding:0;}
+html,body{margin:0;padding:0; overflow-x:hidden;}
 body{
   background:
     radial-gradient(1100px 520px at 12% -8%, rgba(28,51,39,0.55), transparent 60%),
@@ -59,12 +59,14 @@ a{color:inherit;}
   font-family:'JetBrains Mono',monospace;
   font-size:11px; letter-spacing:.18em; text-transform:uppercase;
   color:var(--amber); display:flex; align-items:center; gap:8px; margin-bottom:8px;
+  flex-wrap:wrap; overflow-wrap:break-word; word-break:break-word;
 }
 .sb-dot{width:6px;height:6px;border-radius:50%;background:var(--amber); box-shadow:0 0 8px 1px var(--amber); animation:blink 2.2s ease-in-out infinite;}
 @media (prefers-reduced-motion: reduce){ .sb-dot{animation:none;} }
 @keyframes blink{0%,55%,100%{opacity:1;}70%{opacity:.25;}}
 .sb-title{
-  font-size:clamp(22px,3vw,32px); font-weight:700; letter-spacing:-0.01em; line-height:1.1; margin:0 0 6px;
+  font-size:clamp(22px,6vw,32px); font-weight:700; letter-spacing:-0.01em; line-height:1.15; margin:0 0 6px;
+  overflow-wrap:break-word; word-break:break-word;
 }
 .sb-sub{color:var(--text-dim); font-size:13.5px; max-width:52ch; line-height:1.5;}
 
@@ -148,9 +150,9 @@ a{color:inherit;}
 table{width:100%; border-collapse:collapse; font-size:13px; min-width:640px;}
 thead th{
   text-align:right; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
-  color:var(--text-mute); padding:10px 12px; background:rgba(0,0,0,0.25);
+  color:var(--text-mute); padding:10px 12px; background:var(--panel);
   border-bottom:1px solid var(--line-strong); cursor:pointer; user-select:none; white-space:nowrap;
-  position:sticky; top:0;
+  position:sticky; top:0; z-index:2;
 }
 thead th:first-child, thead th:nth-child(2){text-align:left;}
 thead th.sorted{color:var(--amber);}
@@ -161,6 +163,17 @@ tbody td:first-child{font-weight:600;}
 tbody tr:nth-child(odd){background:rgba(240,239,234,0.015);}
 tbody tr:hover{background:var(--amber-soft);}
 .rank-cell{color:var(--text-mute); font-size:11px; width:28px;}
+
+/* Freeze the name column so it stays visible while scrolling sideways
+   through the stat columns (rank column scrolls away, which is fine). */
+thead th:nth-child(2), tbody td:nth-child(2){
+  position:sticky; left:0;
+  box-shadow:2px 0 6px -2px rgba(0,0,0,0.55);
+}
+thead th:nth-child(2){z-index:3; background:var(--panel);}
+tbody td:nth-child(2){z-index:1; background:var(--panel);}
+tbody tr:nth-child(odd) td:nth-child(2){background:#13201b;}
+tbody tr:hover td:nth-child(2){background:#2b2d19;}
 .badge{
   display:inline-block; font-family:'JetBrains Mono',monospace; font-size:10px; padding:1px 6px;
   border-radius:10px; border:1px solid var(--line-strong); color:var(--text-dim);
@@ -252,3 +265,24 @@ footer{margin-top:30px; color:var(--text-mute); font-size:11.5px; font-family:'J
 ::-webkit-scrollbar-thumb{background:var(--line-strong); border-radius:4px;}
 
 :focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 640px){
+  .wrap{padding:16px 12px 40px;}
+  .scoreboard{padding:16px 16px;}
+  .sb-top{gap:16px;}
+  .sb-leaders{width:100%;}
+  .led{flex:1 1 140px; min-width:0;}
+  .sb-refresh-row{flex-wrap:wrap; justify-content:flex-start; gap:8px;}
+  .panel{padding:14px;}
+  .panel-head{gap:10px;}
+  .comp-title{font-size:15px;}
+  table{font-size:12px;}
+  thead th, tbody td{padding:7px 8px;}
+  .chart-box{min-height:260px;}
+  .charts-grid{gap:14px;}
+  .chart-card{padding:12px 14px;}
+  .segmented button{padding:7px 12px; font-size:11px;}
+  .tab-btn{padding:8px 12px; font-size:11px;}
+  .state-box{padding:40px 16px; min-height:320px;}
+}
